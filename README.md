@@ -92,6 +92,7 @@ Search Page
 * Inititial search parameter
 * search panel filter doesn't work. 
 * paging is not impemented
+* toast messages display behind navigation bar.
 * UI 
 
 Favorites Page
@@ -105,10 +106,11 @@ Favorites Page
 * Save favorites into Firebase.
 * Convert detail item to component 
 * UI Refactoring
+* Unit test
 
 ### Test
 
-Chrome 63 (canary)
-Chrom 60
-Samsung Galaxy Note 4
-Samsubg Galaxy Tab S2
+* Chrome 63 (canary)
+* Chrom 60
+* Samsung Galaxy Note 4
+* Samsubg Galaxy Tab S2
