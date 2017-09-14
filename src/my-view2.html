@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="my-view2">
     <template>
-    <style include="shared-styles">
+        <style include="shared-styles">
       :host {
         display: block;
 
@@ -68,17 +68,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <h4><a href="[[url(item.id.videoId)]]" target="_blank">[[item.snippet.title]]</a></h4>
                     <iron-image src="[[item.snippet.thumbnails.high.url]]" width="256" height="256" sizing="cover" preload fade></iron-image>
                     <p>[[item.snippet.description]]</p>
-                    
-                    <paper-button><iron-icon icon="delete"></iron-icon>remove</paper-button>
+ 
                     <paper-button raised 
-                    on-tap="saveVideo({{item.id.videoId}})" 
-                    on-click="saveVideo"><iron-icon icon="file-download" ></iron-icon>save</paper-button>
+                    on-tap="removeVideo({{item.id.videoId}})" 
+                    on-click="saveVideo"><iron-icon icon="delete" ></iron-icon>remove</paper-button>
                    </div>
                 </template>
     </div>
-
-
-
 
     </template>
 
@@ -86,29 +82,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         class MyView2 extends Polymer.Element {
             static get is() {
                 return 'my-view2';
-            }
-
-            static get properties() {
-                return {
-
-                    favorites: {
-                        type: Object,
-                        value: {
-                            count: 0,
-                            items: [],
-                        }
-
-                    },
-
-                    favoritesVideos: {
-                        type: Array,
-                        value: function() {
-                            return [];
-                        }
-                    },
-
-
-                }
             }
         }
 

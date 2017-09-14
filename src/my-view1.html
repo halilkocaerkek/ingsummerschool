@@ -51,32 +51,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin-bottom: 24px;
         }
     </style>
-
  
 <div class=" ">
     <h3>Search </h3>
-
-    <iron-ajax auto
+ 
+    <iron-ajax id="ajaxSearch" auto
     url="https://www.googleapis.com/youtube/v3/search"
-    params="{'part':'snippet', 'q': search , 'key': 'AIzaSyAuecFZ9xJXbGDkQYWBmYrtzOGJD-iDIgI', 'type': 'video'}"
+ 
+    params= "{{getCriteria()}}"
+ 
+    handleerror="handleError"
     handle-as="json"
-    last-response="{{ajaxResponse}}"></iron-ajax>
+    last-response="{{ajaxResponse}}"    
+    ></iron-ajax>
 
-    <iron-localstorage name="my-app-storage"     value="{{favorites}}"
+    <iron-localstorage id="YouTubeSearch" name="my-app-storage"     value="{{favorites}}" 
     on-iron-localstorage-load-empty="initializeDefaults" ></iron-localstorage>
 
     <paper-search-panel
         placeholder="Search for anything..."
         hide-filter-button="[[hideFilterButton]]"
         search="{{search}}"
-        count="{{count}}"
-       
+        count="{{count}}"          
         has-more="[[hasMore]]"
         loading="[[loading]]"
-        filters="[[filters]]"
-        search-changed="" 
+        filters="[[filters]]"     
         selected-filters="{{selectedFilters}}"
- >
+        on-change-request-params="loadData" >
 
         <div fixed>
             <div class="horizontal-section-container">
@@ -86,7 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <iron-image src="[[item.snippet.thumbnails.high.url]]" width="256" height="256" sizing="cover" preload fade></iron-image>
                     <p>[[item.snippet.description]]</p>
                     
-                    <paper-button><iron-icon icon="delete"></iron-icon>remove</paper-button>
+                    
                     <paper-button raised 
                     on-tap="saveVideo({{item.id.videoId}})" 
                     on-click="saveVideo"><iron-icon icon="file-download" ></iron-icon>save</paper-button>
@@ -105,12 +106,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'my-view1';
             }
 
+            getCriteria() {
+                return {
+                    "part": "snippet",
+                    "q": this.search,
+                    "key": "AIzaSyAuecFZ9xJXbGDkQYWBmYrtzOGJD-iDIgI",
+                    "type": "video"
+                };
+            }
+
             static get properties() {
                 return {
+                    buildSearchRequest: function() {
+                        return {
+                            Command: 'Search',
+                            Criteria: getCriteria()
+                        }
+                    },
 
                     search: {
                         type: String,
-                        value: "ING"
+                        value: "Polymer"
                     },
 
                     loading: {
@@ -164,45 +180,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         type: Array,
                         value: function() {
                             return [{
-                                id: "jobType",
-                                name: "Job Type",
+                                id: "pageSize",
+                                name: "Page Size",
                                 values: [{
-                                    id: "permanent",
-                                    name: "Permanent"
+                                    id: "_5",
+                                    name: "5"
                                 }, {
-                                    id: "contract",
-                                    name: "Contract"
+                                    id: "_10",
+                                    name: "10"
                                 }, {
-                                    id: "partTime",
-                                    name: "Part Time"
-                                }, {
-                                    id: "fullTime",
-                                    name: "Full Time"
-                                }, {
-                                    id: "temp",
-                                    name: "Temp"
+                                    id: "_50",
+                                    name: "50"
                                 }]
                             }, {
-                                id: "location",
-                                name: "Location",
+                                id: "previewsize",
+                                name: "Preview Size",
                                 values: [{
-                                        id: "amsterdam",
-                                        name: "Amsterdam"
-                                    }, {
-                                        id: "london",
-                                        name: "London"
-                                    }, {
-                                        id: "paris",
-                                        name: "Paris"
-                                    }, {
-                                        id: "berlin",
-                                        name: "Berlin"
-                                    }, {
-                                        id: "madrid",
-                                        name: "Madrid"
-                                    }
-
-                                ]
+                                    id: "small",
+                                    name: "Small"
+                                }, {
+                                    id: "medium",
+                                    name: "Medium"
+                                }, {
+                                    id: "large",
+                                    name: "Large"
+                                }]
                             }]
                         }
                     }
@@ -210,17 +212,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             saveVideo(e) {
+                if (!this.favorites.items) {
+                    this.favorites.items = [];
+                }
                 this.favorites.items.push(e.model.item);
                 this.set('favorites.count', this.favorites.items.length);
                 this.set('favorites.items', this.favorites.items);
             }
 
-            loadData() {
-                // Simulate a 100ms data load
-                this.loading = true,
-                    setTimeout(function() {
-                        this.loading = false;
-                    }.bind(this), 1000);
+            loadData(e) {
+
+                this.$.ajaxSearch.params = this.getCriteria();
+                this.$.ajaxSearch.generateRequest();
             }
 
             url(videoId) {
@@ -229,18 +232,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             // initializes default if nothing has been stored
             initializeDefaults() {
-                    this.favorites = {
-                        count: 0,
-                        items: []
-                    }
+                this.favorites = {
+                    count: 0,
+                    items: []
                 }
-                // use path set api to propagate changes to localstorage
-            makeModifications() {
+            }
 
+            handleError(request, error) {
+                alert('Whoops! ' + error);
             }
 
         }
 
         window.customElements.define('my-view1', MyView1);
+        MyView1.properties.search.value = "Ing Polymer";
+        MyView1.loadData(null);
     </script>
 </dom-module>
