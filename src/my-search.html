@@ -56,17 +56,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <h3>Search </h3>
  
     <iron-ajax id="ajaxSearch" auto
-    url="https://www.googleapis.com/youtube/v3/search"
- 
-    params= "{{getCriteria()}}"
- 
-    handleerror="handleError"
-    handle-as="json"
-    last-response="{{ajaxResponse}}"    
-    ></iron-ajax>
+        url="https://www.googleapis.com/youtube/v3/search"  
+        params= "{{getCriteria()}}"  
+        handleerror="handleError"
+        handle-as="json"
+        last-response="{{ajaxResponse}}">
+    </iron-ajax>
 
-    <iron-localstorage id="YouTubeSearch" name="my-app-storage"     value="{{favorites}}" 
-    on-iron-localstorage-load-empty="initializeDefaults" ></iron-localstorage>
+    <iron-localstorage 
+        id="YouTubeSearch" 
+        name="my-app-storage"     
+        value="{{favorites}}" 
+        on-iron-localstorage-load-empty="initializeDefaults">
+    </iron-localstorage>
 
     <paper-search-panel
         placeholder="Search for anything..."
