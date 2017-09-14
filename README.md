@@ -17,6 +17,7 @@ Application main function is search youtube videos with google api, and save sel
 
 ### Search youtube with google api
 
+```xml
     <iron-ajax id="ajaxSearch" auto
         url="https://www.googleapis.com/youtube/v3/search"  
         params= "{{getCriteria()}}"  
@@ -24,9 +25,22 @@ Application main function is search youtube videos with google api, and save sel
         handle-as="json"
         last-response="{{ajaxResponse}}">
     </iron-ajax>
+```
+
+```javascript
+    getCriteria() {
+        return {
+                 "part": "snippet",
+                  "q": this.search,
+                  "key": "AIzaSyAuecFZ9xJXbGDkQYWBmYrtzOGJD-iDIgI",
+                  "type": "video"
+       };
+    }
+```
 
 ### Implement paper-search-panel
 
+```xml
     <paper-search-panel
         placeholder="Search for anything..."
         hide-filter-button="[[hideFilterButton]]"
@@ -37,15 +51,28 @@ Application main function is search youtube videos with google api, and save sel
         filters="[[filters]]"     
         selected-filters="{{selectedFilters}}"
         on-change-request-params="loadData" >
+```
 
 ### store favorites into local storage
 
+```xml
     <iron-localstorage 
         id="YouTubeSearch" 
         name="my-app-storage"     
         value="{{favorites}}" 
         on-iron-localstorage-load-empty="initializeDefaults">
     </iron-localstorage>.
+```
+```javascript
+            saveVideo(e) {
+                if (!this.favorites.items) {
+                    this.favorites.items = [];
+                }
+                this.favorites.items.push(e.model.item);
+                this.set('favorites.count', this.favorites.items.length);
+                this.set('favorites.items', this.favorites.items);
+            }
+```
 
 ## BUGS
 
