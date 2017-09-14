@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="my-search">
     <template>
@@ -59,6 +60,8 @@
         value="{{favorites}}" 
         on-iron-localstorage-load-empty="initializeDefaults">
     </iron-localstorage>
+
+    <paper-toast id="toast0" text=""></paper-toast>
 
     <paper-search-panel
         placeholder="Search for anything..."
@@ -216,6 +219,9 @@
             }
 
             saveVideo(e) {
+
+                this.$.YouTubeSearch.reload();
+
                 if (!this.favorites) {
                     this.favorites = {
                         count: 0,
@@ -228,10 +234,12 @@
                 this.favorites.items.push(e.model.item);
                 this.set('favorites.count', this.favorites.items.length);
                 this.set('favorites.items', this.favorites.items);
+
+                this.$.toast0.text = e.model.item.snippet.title + " added into favorites!";
+                this.$.toast0.open();
             }
 
             loadData(e) {
-
                 this.$.ajaxSearch.params = this.getCriteria();
                 this.$.ajaxSearch.generateRequest();
             }

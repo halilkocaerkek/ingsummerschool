@@ -5,6 +5,7 @@
 
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="my-favorites">
     <template>
@@ -50,14 +51,14 @@
     on-iron-localstorage-load-empty="initializeDefaultVideos"
   ></iron-localstorage>
 
- 
+  <paper-toast id="toast0" text=""></paper-toast>
 
-  <paper-button id="refresh" raised on-tap="reload()" on-click="reload">  
+  <paper-button id="refresh" raised on-tap="reload"  >  
        <iron-icon icon="refresh" ></iron-icon>
                    refresh
      </paper-button>
 
-     <paper-button id="refresh" raised on-tap="removeAll()" on-click="removeAll">  
+     <paper-button id="refresh" raised on-tap="removeAll"  >  
             <iron-icon icon="remove" ></iron-icon>
                         remove All
           </paper-button>
@@ -93,7 +94,7 @@
 
             ready() {
                 super.ready();
-                this.$.local_storage.reload();
+                this.$.local_storage.reload(null);
                 console.log('my-element is ready!');
             }
 
@@ -106,8 +107,15 @@
             }
 
             removeAll(e) {
+                this.favorites = {
+                    count: 0,
+                    items: []
+                };
                 this.set('favorites.count', 0);
                 this.set('favorites.items', []);
+
+                this.$.toast0.text = "All favorites removed!";
+                this.$.toast0.open();
             }
 
             removeVideo(e) {
@@ -117,6 +125,9 @@
                         this.set('favorites.count', this.favorites.items.length);
                         this.set('favorites.items', this.favorites.items);
                         this.favorites.count = this.favorites.items.length;
+
+                        this.$.toast0.text = e.model.item.snippet.title + " removed!";
+                        this.$.toast0.open();
                         return;
                     }
                 }

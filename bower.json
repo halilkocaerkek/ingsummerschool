@@ -19,7 +19,8 @@
     "promise-polyfill": "PolymerLabs/promise-polyfill#^2.0.1",
     "iron-ajax": "^2.0.5",
     "iron-image": "^2.1.2",
-    "iron-localstorage": "^2.0.0"
+    "iron-localstorage": "^2.0.0",
+    "paper-toast": "^2.0.0"
   },
   "resolutions": {
     "polymer": "^2.0.0"
