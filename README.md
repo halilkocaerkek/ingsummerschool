@@ -47,6 +47,17 @@ Application main function is search youtube videos with google api, and save sel
         on-iron-localstorage-load-empty="initializeDefaults">
     </iron-localstorage>.
 
+## BUGS
+
+Search Page
+* Inititial search parameter
+* search panel filter doesn't work. 
+* UI 
+
+Favorites Page
+* Remove function is not implemented  
+* Page needs to refresh, afer new favorites added.
+
 ## TODO :
 
 * use paper-panel filters.
