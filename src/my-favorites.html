@@ -1,13 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
@@ -59,10 +49,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     value="{{favorites}}"
     on-iron-localstorage-load-empty="initializeDefaultVideos"
   ></iron-localstorage>
-  <paper-button raised 
-  on-tap="reload()" 
-  on-click="reload"><iron-icon icon="refresh" >
-</iron-icon>refresh</paper-button>
+
+ 
+
+  <paper-button id="refresh" raised on-tap="reload()" on-click="reload">  
+       <iron-icon icon="refresh" ></iron-icon>
+                   refresh
+     </paper-button>
+
+     <paper-button id="refresh" raised on-tap="removeAll()" on-click="removeAll">  
+            <iron-icon icon="remove" ></iron-icon>
+                        remove All
+          </paper-button>
  
         <div fixed>
             <div class="horizontal-section-container">
@@ -73,9 +71,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <p>[[item.snippet.description]]</p>
  
                     <paper-button raised 
-                            on-tap="removeVideo({{item.id.videoId}})" 
-                            on-click="saveVideo"><iron-icon icon="delete" >
-                    </iron-icon>remove</paper-button>
+                    on-tap="removeVideo({{item.id.videoId}})" 
+                    on-click="removeVideo"><iron-icon icon="remove" ></iron-icon>remove</paper-button>
 
                    </div>
                 </template>
@@ -89,6 +86,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 return 'my-favorites';
             }
 
+            constructor() {
+                super();
+
+            }
+
+            ready() {
+                super.ready();
+                this.$.local_storage.reload();
+                console.log('my-element is ready!');
+            }
+
             url(videoId) {
                 return 'https://www.youtube.com/watch?v=' + videoId
             }
@@ -97,6 +105,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 this.$.local_storage.reload();
             }
 
+            removeAll(e) {
+                this.set('favorites.count', 0);
+                this.set('favorites.items', []);
+            }
+
+            removeVideo(e) {
+                for (var i = this.favorites.items.length - 1; i--;) {
+                    if (this.favorites.items[i].videoId === e.model.item.videoId) {
+                        this.favorites.items.splice(i, 1);
+                        this.set('favorites.count', this.favorites.items.length);
+                        this.set('favorites.items', this.favorites.items);
+                        this.favorites.count = this.favorites.items.length;
+                        return;
+                    }
+                }
+            }
+
+            static get properties() {
+                return {
+                    favorites: {
+                        type: Object,
+                        value: {
+                            count: 0,
+                            items: [],
+                        }
+                    }
+                }
+            }
         }
 
         window.customElements.define(myFavorites.is, myFavorites);
