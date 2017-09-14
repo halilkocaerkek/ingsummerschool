@@ -41,6 +41,10 @@
           max-width: 300px;
           margin-bottom: 24px;
         }
+        #toast0 {
+              --paper-toast-background-color: red;
+              --paper-toast-color: white;
+            }
     </style>
  
 <div class="card ">
@@ -60,7 +64,7 @@
         value="{{favorites}}" 
         on-iron-localstorage-load-empty="initializeDefaults">
     </iron-localstorage>
-
+ 
     <paper-toast id="toast0" text=""></paper-toast>
 
     <paper-search-panel
