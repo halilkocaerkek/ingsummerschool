@@ -123,15 +123,26 @@
             }
 
             removeVideo(e) {
-                for (var i = this.favorites.items.length - 1; i--;) {
-                    if (this.favorites.items[i].videoId === e.model.item.videoId) {
+                for (var i = this.favorites.items.length; i--;) {
+                    if (this.favorites.items[i].id.videoId === e.model.item.id.videoId) {
                         this.favorites.items.splice(i, 1);
-                        this.set('favorites.count', this.favorites.items.length);
-                        this.set('favorites.items', this.favorites.items);
-                        this.favorites.count = this.favorites.items.length;
+
+                        var tempFavorites = this.favorites;
+                        // this.set('favorites.count', null);
+                        // this.set('favorites.items', null);
+
+                        this.set('favorites.count', tempFavorites.items.length);
+                        this.set('favorites.items', tempFavorites.items);
+                        this.$.local_storage.save();
 
                         this.$.toast0.text = e.model.item.snippet.title + " removed!";
                         this.$.toast0.open();
+
+                        this.favorites = {
+                            count: 0,
+                            items: []
+                        };
+                        this.$.local_storage.reload();
                         return;
                     }
                 }

@@ -41,10 +41,14 @@
           max-width: 300px;
           margin-bottom: 24px;
         }
-        #toast0 {
+        #toastWarning {
               --paper-toast-background-color: red;
               --paper-toast-color: white;
-            }
+        } 
+        #toastOk {
+              --paper-toast-background-color: blue;
+              --paper-toast-color: white;
+        }  
     </style>
  
 <div class="card ">
@@ -65,7 +69,8 @@
         on-iron-localstorage-load-empty="initializeDefaults">
     </iron-localstorage>
  
-    <paper-toast id="toast0" text=""></paper-toast>
+    <paper-toast id="toastOk" text=""></paper-toast>
+    <paper-toast id="toastWarning" text=""></paper-toast>
 
     <paper-search-panel
         placeholder="Search for anything..."
@@ -235,12 +240,24 @@
                 if (!this.favorites.items) {
                     this.favorites.items = [];
                 }
+
+                if (this.favorites.items.length > 0) {
+                    for (var i = this.favorites.items.length; i--;) {
+                        if (this.favorites.items[i].id.videoId === e.model.item.id.videoId) {
+
+                            this.$.toastWarning.text = e.model.item.snippet.title + " is already added into favorites!";
+                            this.$.toastWarning.open();
+                            return;
+                        }
+                    }
+                }
+
                 this.favorites.items.push(e.model.item);
                 this.set('favorites.count', this.favorites.items.length);
                 this.set('favorites.items', this.favorites.items);
 
-                this.$.toast0.text = e.model.item.snippet.title + " added into favorites!";
-                this.$.toast0.open();
+                this.$.toastOk.text = e.model.item.snippet.title + " added into favorites!";
+                this.$.toastOk.open();
             }
 
             loadData(e) {

@@ -76,12 +76,27 @@ Application main function is search youtube videos with google api, and save sel
 ```
 ### Paper toast
 
+```css
+        #toastWarning {
+              --paper-toast-background-color: red;
+              --paper-toast-color: white;
+        } 
+        #toastOk {
+              --paper-toast-background-color: blue;
+              --paper-toast-color: white;
+        }
+```
+
 ```xml
-    <paper-toast id="toast0" text=""></paper-toast>
+    <paper-toast id="toastOk" text=""></paper-toast>
+    <paper-toast id="toastWarning" text=""></paper-toast>
 ```
 ```javascript
-        this.$.toast0.text = e.model.item.snippet.title + " added into favorites!";
-        this.$.toast0.open();
+        this.$.toastOk.text = e.model.item.snippet.title + " added into favorites!";
+        this.$.toastOk.open();
+
+        this.$.toastWarning.text = e.model.item.snippet.title + " is already added into favorites!";
+        this.$.toastWarning.open();
 ```
 
 ## BUGS
