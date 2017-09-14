@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
 
-<dom-module id="my-view1">
+<dom-module id="my-search">
     <template>
     <style include="shared-styles">
       :host {
@@ -101,12 +101,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
 
     <script>
-        class MyView1 extends Polymer.Element {
+        class MySearch extends Polymer.Element {
             static get is() {
-                return 'my-view1';
+                return 'my-search';
+            }
+            created() {
+                this.search = "Ing Polymer";
             }
 
             getCriteria() {
+
                 return {
                     "part": "snippet",
                     "q": this.search,
@@ -244,8 +248,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         }
 
-        window.customElements.define('my-view1', MyView1);
-        MyView1.properties.search.value = "Ing Polymer";
-        MyView1.loadData(null);
+        window.customElements.define('my-search', MySearch);
+        MySearch.properties.search.value = "Ing Polymer";
     </script>
 </dom-module>
