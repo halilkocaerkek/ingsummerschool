@@ -55,11 +55,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
  
 <div class="card">
     <h3>Favorites </h3>
-     <iron-localstorage name="my-app-storage"
+     <iron-localstorage id="local_storage" name="my-app-storage"
     value="{{favorites}}"
     on-iron-localstorage-load-empty="initializeDefaultVideos"
   ></iron-localstorage>
-
+  <paper-button raised 
+  on-tap="reload()" 
+  on-click="reload"><iron-icon icon="refresh" >
+</iron-icon>refresh</paper-button>
  
         <div fixed>
             <div class="horizontal-section-container">
@@ -70,8 +73,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <p>[[item.snippet.description]]</p>
  
                     <paper-button raised 
-                    on-tap="removeVideo({{item.id.videoId}})" 
-                    on-click="saveVideo"><iron-icon icon="delete" ></iron-icon>remove</paper-button>
+                            on-tap="removeVideo({{item.id.videoId}})" 
+                            on-click="saveVideo"><iron-icon icon="delete" >
+                    </iron-icon>remove</paper-button>
+
                    </div>
                 </template>
     </div>
@@ -83,6 +88,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             static get is() {
                 return 'my-favorites';
             }
+
+            url(videoId) {
+                return 'https://www.youtube.com/watch?v=' + videoId
+            }
+
+            reload() {
+                this.$.local_storage.reload();
+            }
+
         }
 
         window.customElements.define(myFavorites.is, myFavorites);

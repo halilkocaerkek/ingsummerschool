@@ -79,6 +79,7 @@ Application main function is search youtube videos with google api, and save sel
 Search Page
 * Inititial search parameter
 * search panel filter doesn't work. 
+* paging is not impemented
 * UI 
 
 Favorites Page
@@ -93,4 +94,9 @@ Favorites Page
 * Convert detail item to component 
 * UI Refactoring
 
+### Test
 
+Chrome 63 (canary)
+Chrom 60
+Samsung Galaxy Note 4
+Samsubg Galaxy Tab S2
