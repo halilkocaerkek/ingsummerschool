@@ -1,0 +1,246 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-search/paper-search.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/promise-polyfill/promise-polyfill-lite.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+
+<dom-module id="my-view1">
+    <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      iron-image {
+          background-color: lightgray;
+          margin: 1em;
+        }
+        .horizontal-section-container {
+          display: flex;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -ms-flex-wrap: wrap;
+          -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+        }
+        .horizontal-section {
+          background-color: white;
+          padding: 24px;
+          margin-right: 24px;
+          min-width: 200px;
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                      0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          max-width: 300px;
+          margin-bottom: 24px;
+        }
+    </style>
+
+ 
+<div class=" ">
+    <h3>Search </h3>
+
+    <iron-ajax auto
+    url="https://www.googleapis.com/youtube/v3/search"
+    params="{'part':'snippet', 'q': search , 'key': 'AIzaSyAuecFZ9xJXbGDkQYWBmYrtzOGJD-iDIgI', 'type': 'video'}"
+    handle-as="json"
+    last-response="{{ajaxResponse}}"></iron-ajax>
+
+    <iron-localstorage name="my-app-storage"     value="{{favorites}}"
+    on-iron-localstorage-load-empty="initializeDefaults" ></iron-localstorage>
+
+    <paper-search-panel
+        placeholder="Search for anything..."
+        hide-filter-button="[[hideFilterButton]]"
+        search="{{search}}"
+        count="{{count}}"
+       
+        has-more="[[hasMore]]"
+        loading="[[loading]]"
+        filters="[[filters]]"
+        search-changed="" 
+        selected-filters="{{selectedFilters}}"
+ >
+
+        <div fixed>
+            <div class="horizontal-section-container">
+                <template is="dom-repeat" items="[[ajaxResponse.items]]">
+                  <div class="horizontal-section">
+                    <h4><a href="[[url(item.id.videoId)]]" target="_blank">[[item.snippet.title]]</a></h4>
+                    <iron-image src="[[item.snippet.thumbnails.high.url]]" width="256" height="256" sizing="cover" preload fade></iron-image>
+                    <p>[[item.snippet.description]]</p>
+                    
+                    <paper-button><iron-icon icon="delete"></iron-icon>remove</paper-button>
+                    <paper-button raised 
+                    on-tap="saveVideo({{item.id.videoId}})" 
+                    on-click="saveVideo"><iron-icon icon="file-download" ></iron-icon>save</paper-button>
+                   </div>
+                </template>
+    </div>
+    </div>
+    </paper-search-panel>
+
+    </template>
+    </template>
+
+    <script>
+        class MyView1 extends Polymer.Element {
+            static get is() {
+                return 'my-view1';
+            }
+
+            static get properties() {
+                return {
+
+                    search: {
+                        type: String,
+                        value: "ING"
+                    },
+
+                    loading: {
+                        type: Boolean,
+                        value: false
+                    },
+                    showDelete: {
+                        type: Boolean,
+                        value: false
+                    },
+                    showSaveButton: {
+                        type: Boolean,
+                        value: true
+                    },
+
+                    hideFilterButton: {
+                        type: Boolean,
+                        value: false
+                    },
+                    hasMore: {
+                        type: Boolean,
+                        value: false
+                    },
+                    noResults: {
+                        type: Boolean,
+                        value: false
+                    },
+                    search: {
+                        type: String,
+                        value: ""
+                    },
+                    count: {
+                        type: Number,
+                        value: 0
+                    },
+
+                    favorites: {
+                        type: Object,
+                        value: {
+                            count: 0,
+                            items: [],
+                        }
+
+                    },
+
+                    selectedFilters: {
+                        type: Array,
+
+                    },
+                    filters: {
+                        type: Array,
+                        value: function() {
+                            return [{
+                                id: "jobType",
+                                name: "Job Type",
+                                values: [{
+                                    id: "permanent",
+                                    name: "Permanent"
+                                }, {
+                                    id: "contract",
+                                    name: "Contract"
+                                }, {
+                                    id: "partTime",
+                                    name: "Part Time"
+                                }, {
+                                    id: "fullTime",
+                                    name: "Full Time"
+                                }, {
+                                    id: "temp",
+                                    name: "Temp"
+                                }]
+                            }, {
+                                id: "location",
+                                name: "Location",
+                                values: [{
+                                        id: "amsterdam",
+                                        name: "Amsterdam"
+                                    }, {
+                                        id: "london",
+                                        name: "London"
+                                    }, {
+                                        id: "paris",
+                                        name: "Paris"
+                                    }, {
+                                        id: "berlin",
+                                        name: "Berlin"
+                                    }, {
+                                        id: "madrid",
+                                        name: "Madrid"
+                                    }
+
+                                ]
+                            }]
+                        }
+                    }
+                }
+            }
+
+            saveVideo(e) {
+                this.favorites.items.push(e.model.item);
+                this.set('favorites.count', this.favorites.items.length);
+                this.set('favorites.items', this.favorites.items);
+            }
+
+            loadData() {
+                // Simulate a 100ms data load
+                this.loading = true,
+                    setTimeout(function() {
+                        this.loading = false;
+                    }.bind(this), 1000);
+            }
+
+            url(videoId) {
+                return 'https://www.youtube.com/watch?v=' + videoId
+            }
+
+            // initializes default if nothing has been stored
+            initializeDefaults() {
+                    this.favorites = {
+                        count: 0,
+                        items: []
+                    }
+                }
+                // use path set api to propagate changes to localstorage
+            makeModifications() {
+
+            }
+
+        }
+
+        window.customElements.define('my-view1', MyView1);
+    </script>
+</dom-module>
