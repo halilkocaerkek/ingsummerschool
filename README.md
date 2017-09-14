@@ -91,4 +91,6 @@ Favorites Page
 * Implement social login 
 * Save favorites into Firebase.
 * Convert detail item to component 
+* UI Refactoring
+
 
