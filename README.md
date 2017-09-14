@@ -77,6 +77,8 @@ Application main function is search youtube videos with google api, and save sel
 ## BUGS
 
 Search Page
+
+* Check duplicates (Thanks Ali :)
 * Inititial search parameter
 * search panel filter doesn't work. 
 * paging is not impemented
