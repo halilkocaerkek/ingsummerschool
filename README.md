@@ -10,6 +10,7 @@ Polymer Starter Kit
 * paper-search-panel
 * iron-localstorage
 * paper-button
+* paper-toast
 
 ## Functions
 
@@ -72,6 +73,15 @@ Application main function is search youtube videos with google api, and save sel
                 this.set('favorites.count', this.favorites.items.length);
                 this.set('favorites.items', this.favorites.items);
             }
+```
+### Paper toast
+
+```xml
+    <paper-toast id="toast0" text=""></paper-toast>
+```
+```javascript
+        this.$.toast0.text = e.model.item.snippet.title + " added into favorites!";
+        this.$.toast0.open();
 ```
 
 ## BUGS
