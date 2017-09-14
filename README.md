@@ -103,15 +103,15 @@ Application main function is search youtube videos with google api, and save sel
 
 Search Page
 
-* Check duplicates (Thanks Ali :)
-* Inititial search parameter
+* Check duplicates (Thanks Ali :) **fixed**
+* Inititial search parameter **fixed**
 * search panel filter doesn't work. 
 * paging is not impemented
 * toast messages display behind navigation bar.
 * UI 
 
 Favorites Page
-* Remove function is not implemented  
+* Remove function is not implemented  **added**
 * Page needs to refresh, afer new favorites added.
 
 ## TODO :
