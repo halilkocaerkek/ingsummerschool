@@ -1,5 +1,7 @@
 # Assignment Summer School Polymer 2017 (ITAC0249)
 
+![ING Summer School](/docs/1.png)
+
 ## Template : 
 
 Polymer Starter Kit
