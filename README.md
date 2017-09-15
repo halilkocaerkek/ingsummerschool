@@ -132,4 +132,4 @@ Favorites Page
 - [x] Chrome 63 (canary)
 - [x] Chrom 60
 - [x] Samsung Galaxy Note 4
-- [x] Samsubg Galaxy Tab S2
+- [x] Samsung Galaxy Tab S2
