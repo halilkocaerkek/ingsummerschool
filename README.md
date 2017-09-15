@@ -105,29 +105,31 @@ Application main function is search youtube videos with google api, and save sel
 
 Search Page
 
-* Check duplicates (Thanks Ali :) **fixed**
-* Inititial search parameter **fixed**
-* search panel filter doesn't work. 
-* paging is not impemented
-* toast messages display behind navigation bar.
-* UI 
+- [x] Check duplicates (Thanks Ali :)  
+- [x] Inititial search parameter  
+- [ ]  search panel filter doesn't work. 
+- [ ]  paging is not impemented
+- [ ] toast messages display behind navigation bar.
+- [ ] UI 
 
 Favorites Page
-* Remove function is not implemented  **added**
-* Page needs to refresh, afer new favorites added.
+- [x] Remove function is not implemented   
+- [ ] Page needs to refresh, afer new favorites added.
 
 ## TODO :
 
-* use paper-panel filters.
-* Implement social login 
-* Save favorites into Firebase.
-* Convert detail item to component 
-* UI Refactoring
-* Unit test
+- [ ] use paper-panel filters.
+- [ ]  Implement social login 
+- [ ]  Save favorites into Firebase.
+- [ ]  Convert detail item to component 
+- [ ]  UI Refactoring
+- [ ]  Unit test
+
+ 
 
 ### Test
 
-* Chrome 63 (canary)
-* Chrom 60
-* Samsung Galaxy Note 4
-* Samsubg Galaxy Tab S2
+- [x] Chrome 63 (canary)
+- [x] Chrom 60
+- [x] Samsung Galaxy Note 4
+- [x] Samsubg Galaxy Tab S2
